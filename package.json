@@ -1,8 +1,8 @@
 {
   "name": "cambieri-poc-connectioncheck",
   "version": "0.0.1",
-  "author": "Ionic Framework",
-  "homepage": "https://ionicframework.com/",
+  "author": "Cambieri.it Mobile Team",
+  "homepage": "https://cambieri.it/",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -54,5 +54,5 @@
     "tslint": "~5.15.0",
     "typescript": "~3.4.3"
   },
-  "description": "An Ionic project"
+  "description": "Connection check and communication between angular component & service POC"
 }

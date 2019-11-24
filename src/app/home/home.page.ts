@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { Subscription } from 'rxjs';
+
+import { SharedDataService } from '../services/shared-data.service'
 
 @Component({
   selector: 'app-home',
@@ -7,6 +10,19 @@ import { Component } from '@angular/core';
 })
 export class HomePage {
 
-  constructor() {}
+  subscription: Subscription;
+
+  constructor(private sharedDataService: SharedDataService) {
+    this.subscription = this.sharedDataService.connectionObject$.subscribe(
+      connectionObj => {
+        alert(connectionObj.message);
+        console.log(connectionObj);
+      });
+  }
+
+  ngOnDestroy() {
+    // prevent memory leak when component destroyed
+    this.subscription.unsubscribe();
+  }
 
 }
