@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 
-import { ConnectionService } from 'ng-connection-service';
+import { ConnectionService } from './connection.service';
 
 @Injectable({
   providedIn: 'root'
@@ -32,7 +32,9 @@ export class SharedDataService {
     */
     this.setConnectionProperties(navigator.onLine);
     this.connectionService.monitor().subscribe(currentState => {
-      this.setConnectionProperties(currentState);
+      if (currentState.hasInternetAccess != this.IS_ONLINE) {
+        this.setConnectionProperties(currentState.hasInternetAccess);
+      }
     });
   }
 
