@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 
+import { ConnectionService } from 'ng-connection-service';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -18,13 +20,19 @@ export class SharedDataService {
   public IS_ONLINE: boolean;
   public NETWORK_STATUS: string;
 
-  constructor() {
+  constructor(private connectionService: ConnectionService) {
+    /*
     this.setConnectionProperties(navigator.onLine);
     window.addEventListener('online', (e) => {
       this.setConnectionProperties(true);
     });
     window.addEventListener('offline', (e) => {
       this.setConnectionProperties(false);
+    });
+    */
+    this.setConnectionProperties(navigator.onLine);
+    this.connectionService.monitor().subscribe(currentState => {
+      this.setConnectionProperties(currentState);
     });
   }
 
