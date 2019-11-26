@@ -28,15 +28,15 @@ export interface ConnectionServiceOptions {
   enableHeartbeat?: boolean;
   /**
    * Url used for checking Internet connectivity, heartbeat system periodically makes "HEAD" requests to this URL to determine Internet
-   * connection status. Default value is "//internethealthtest.org".
+   * connection status. Default value is the host of the page or index.html (during development).
    */
   heartbeatUrl?: string;
   /**
-   * Interval used to check Internet connectivity specified in milliseconds. Default value is "30000".
+   * Interval used to check Internet connectivity specified in milliseconds. Default value is "15000".
    */
   heartbeatInterval?: number;
   /**
-   * Interval used to retry Internet connectivity checks when an error is detected (when no Internet connection). Default value is "1000".
+   * Interval used to retry Internet connectivity checks when an error is detected (when no Internet connection). Default value is "5000".
    */
   heartbeatRetryInterval?: number;
   /**
@@ -58,9 +58,11 @@ export class ConnectionService implements OnDestroy {
 
   private static DEFAULT_OPTIONS: ConnectionServiceOptions = {
     enableHeartbeat: true,
-    heartbeatUrl: '//internethealthtest.org',
-    heartbeatInterval: 30000,
-    heartbeatRetryInterval: 1000,
+    // heartbeatUrl: '//internethealthtest.org',
+    // heartbeatUrl: '//' + window.location.hostname,
+    heartbeatUrl: window.location.hostname == 'localhost' ? 'index.html' : '//' + window.location.hostname,
+    heartbeatInterval: 15000,
+    heartbeatRetryInterval: 5000,
     requestMethod: 'head'
   };
 
@@ -108,7 +110,7 @@ export class ConnectionService implements OnDestroy {
                 this.currentState.hasInternetAccess = false;
                 this.emitEvent();
               }),
-              // restart after 5 seconds
+              // restart after the retry interval defined in the settings
               delay(this.serviceOptions.heartbeatRetryInterval)
             )
           )
