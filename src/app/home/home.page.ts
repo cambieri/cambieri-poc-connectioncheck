@@ -12,7 +12,7 @@ export class HomePage {
 
   subscription: Subscription;
 
-  constructor(private sharedDataService: SharedDataService) {
+  constructor(public sharedDataService: SharedDataService) {
     this.subscription = this.sharedDataService.connectionObject$.subscribe(
       connectionObj => {
         alert(connectionObj.message);
