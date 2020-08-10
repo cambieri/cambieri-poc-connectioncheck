@@ -1,5 +1,7 @@
 {
   "name": "cambieri-poc-connectioncheck",
-  "integrations": {},
+  "integrations": {
+    "capacitor": {}
+  },
   "type": "angular"
 }
